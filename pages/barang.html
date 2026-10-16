@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Barang - Inventari</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <style>
+        .form-barang {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .form-barang label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-barang input,
+        .form-barang select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d9e6;
+            border-radius: 7px;
+            box-sizing: border-box;
+        }
+
+        .form-barang .button {
+            border: 0;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .pesan {
+            margin: 12px 0;
+            color: #176b3a;
+        }
+
+        .aksi {
+            white-space: nowrap;
+        }
+
+        .hapus {
+            background: #dc3545 !important;
+            color: white !important;
+            border: 0;
+            padding: 9px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .form-barang {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <h2>⬡ Inventari </h2>
+        <nav>
+            <a href="dashboard.html">⌂ Dashboard</a>
+            <a href="kategori.html">▤ Kategori Barang</a>
+            <a href="barang.html" class="active">▣ Data Barang</a>
+            <a href="peminjaman.html">◷ Peminjaman</a>
+            <a href="pengguna.html">♙ Pengguna</a>
+            <a href="login.html" class="logout">⇥ Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button type="button" id="menuToggle">☰</button>
+        </header>
+
+        <section class="content">
+
+            <div class="welcome">
+                <h1>Data Barang</h1>
+                
+            </div>
+
+            <section class="panel">
+                <h2>Form Tambah Barang</h2>
+
+                <form id="formBarang" class="form-barang">
+
+                    <div>
+                        <label for="kode">Kode Barang</label>
+                        <input
+                            id="kode"
+                            required
+                            placeholder="Contoh: BRG006"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="nama">Nama Barang</label>
+                        <input
+                            id="nama"
+                            required
+                            placeholder="Masukkan nama barang"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="kategori">Kategori</label>
+                        <select id="kategori" required>
+                            <option value="">Pilih kategori</option>
+                        </select>
+                        <small id="infoKategori"></small>
+                    </div>
+
+                    <div>
+                        <label for="jumlah">Jumlah</label>
+                        <input
+                            id="jumlah"
+                            type="number"
+                            min="1"
+                            step="1"
+                            required
+                            placeholder="Masukkan jumlah"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="kondisi">Kondisi</label>
+                        <select id="kondisi" required>
+                            <option value="">Pilih kondisi</option>
+                            <option value="Baik">Baik</option>
+                            <option value="Rusak Ringan">Rusak Ringan</option>
+                            <option value="Rusak Berat">Rusak Berat</option>
+                        </select>
+                    </div>
+
+                    <div style="align-self:end">
+                        <button class="button" type="submit">
+                            + Simpan Barang
+                        </button>
+                        <button class="button" type="reset">
+                            Kosongkan
+                        </button>
+                    </div>
+
+                </form>
+
+                <p id="pesan" class="pesan" role="status"></p>
+            </section>
+
+            <section class="panel">
+                <h2>Daftar Inventaris</h2>
+                <p id="totalBarang">Total barang: 0 jenis</p>
+
+                <div style="overflow-x:auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Kode</th>
+                                <th>Nama Barang</th>
+                                <th>Kategori</th>
+                                <th>Jumlah</th>
+                                <th>Kondisi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftarBarang"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </section>
+    </main>
+</div>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+const KUNCI_BARANG = "inventarisku_barang";
+const KUNCI_KATEGORI = "inventarisku_kategori";
+
+const dataAwal = [
+    {
+        kode: "BRG001",
+        nama: "Laptop Lenovo",
+        kategori: "Elektronik",
+        jumlah: 10,
+        kondisi: "Baik"
+    },
+    {
+        kode: "BRG002",
+        nama: "Proyektor Epson",
+        kategori: "Elektronik",
+        jumlah: 5,
+        kondisi: "Baik"
+    },
+    {
+        kode: "BRG003",
+        nama: "Kursi Kantor",
+        kategori: "Furniture",
+        jumlah: 20,
+        kondisi: "Baik"
+    },
+    {
+        kode: "BRG004",
+        nama: "Keyboard",
+        kategori: "Aksesoris",
+        jumlah: 15,
+        kondisi: "Baik"
+    },
+    {
+        kode: "BRG005",
+        nama: "Mouse Wireless",
+        kategori: "Aksesoris",
+        jumlah: 12,
+        kondisi: "Baik"
+    }
+];
+
+function bacaArray(kunci) {
+    try {
+        const data = JSON.parse(localStorage.getItem(kunci) || "null");
+        return Array.isArray(data) ? data : null;
+    } catch (error) {
+        console.error("Gagal membaca " + kunci, error);
+        return null;
+    }
+}
+
+let barang = bacaArray(KUNCI_BARANG);
+
+if (barang === null) {
+    barang = dataAwal;
+    simpanData();
+}
+
+let kodeSedangDiedit = null;
+
+function simpanData() {
+    localStorage.setItem(KUNCI_BARANG, JSON.stringify(barang));
+}
+
+function buatSel(teks) {
+    const td = document.createElement("td");
+    td.textContent = teks ?? "";
+    return td;
+}
+
+function ambilNamaKategori(item) {
+    if (typeof item === "string") {
+        return item.trim();
+    }
+
+    if (item && typeof item === "object") {
+        const nama =
+            item.nama ??
+            item.kategori ??
+            item.namaKategori ??
+            item.nama_kategori;
+
+        if (typeof nama === "string") {
+            return nama.trim();
+        }
+    }
+
+    return "";
+}
+
+function tampilkanPilihanKategori() {
+    const select = document.getElementById("kategori");
+    const info = document.getElementById("infoKategori");
+    const pilihanSebelumnya = select.value;
+
+    const dataKategori = bacaArray(KUNCI_KATEGORI) || [];
+    const daftarNama = [
+        ...new Set(
+            dataKategori
+                .map(ambilNamaKategori)
+                .filter(nama => nama !== "")
+        )
+    ];
+
+    select.replaceChildren();
+
+    const pilihanAwal = document.createElement("option");
+    pilihanAwal.value = "";
+    pilihanAwal.textContent = "Pilih kategori";
+    select.appendChild(pilihanAwal);
+
+    daftarNama.forEach(nama => {
+        const opsi = document.createElement("option");
+        opsi.value = nama;
+        opsi.textContent = nama;
+        select.appendChild(opsi);
+    });
+
+    barang.forEach(item => {
+        const nama = String(item.kategori || "").trim();
+
+        if (
+            nama &&
+            ![...select.options].some(opsi => opsi.value === nama)
+        ) {
+            const opsi = document.createElement("option");
+            opsi.value = nama;
+            opsi.textContent = nama + " (kategori lama)";
+            select.appendChild(opsi);
+        }
+    });
+
+    if (
+        [...select.options].some(
+            opsi => opsi.value === pilihanSebelumnya
+        )
+    ) {
+        select.value = pilihanSebelumnya;
+    }
+
+    info.textContent = daftarNama.length
+        ? "Pilihan mengikuti kategori yang tersimpan."
+        : "Belum ada kategori tersimpan. Tambahkan kategori melalui menu Kategori Barang.";
+
+    info.style.display = "block";
+    info.style.marginTop = "6px";
+    info.style.color = daftarNama.length ? "#176b3a" : "#a15c00";
+}
+
+function tampilkanBarang() {
+    const tabel = document.getElementById("daftarBarang");
+    tabel.replaceChildren();
+
+    barang.forEach((item, index) => {
+        const baris = document.createElement("tr");
+
+        baris.appendChild(buatSel(index + 1));
+        baris.appendChild(buatSel(item.kode));
+        baris.appendChild(buatSel(item.nama));
+        baris.appendChild(buatSel(item.kategori));
+        baris.appendChild(buatSel(item.jumlah));
+        baris.appendChild(buatSel(item.kondisi));
+
+        const aksi = document.createElement("td");
+        aksi.className = "aksi";
+
+        const tombolEdit = document.createElement("button");
+        tombolEdit.textContent = "Edit";
+        tombolEdit.className = "button";
+        tombolEdit.type = "button";
+
+        tombolEdit.onclick = () => {
+            tampilkanPilihanKategori();
+
+            kodeSedangDiedit = item.kode;
+
+            document.getElementById("kode").value = item.kode;
+            document.getElementById("nama").value = item.nama;
+            document.getElementById("kategori").value = item.kategori;
+            document.getElementById("jumlah").value = item.jumlah;
+            document.getElementById("kondisi").value = item.kondisi;
+
+            document.querySelector(
+                "#formBarang button[type='submit']"
+            ).textContent = "Simpan Perubahan";
+
+            document.getElementById("pesan").textContent =
+                "Mode edit: ubah data, lalu klik Simpan Perubahan.";
+
+            document.getElementById("kode").readOnly = true;
+            document.getElementById("nama").focus();
+
+            document.getElementById("formBarang").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        };
+
+        const tombolKurang = document.createElement("button");
+        tombolKurang.textContent = "− 1";
+        tombolKurang.className = "button";
+        tombolKurang.type = "button";
+
+        tombolKurang.onclick = () => {
+            if (barang[index].jumlah > 1) {
+                barang[index].jumlah--;
+                simpanData();
+                tampilkanBarang();
+
+                document.getElementById("pesan").textContent =
+                    "Jumlah barang berhasil dikurangi satu.";
+            } else {
+                alert(
+                    "Jumlah sudah 1. Gunakan Hapus untuk menghapus barang."
+                );
+            }
+        };
+
+        const tombolHapus = document.createElement("button");
+        tombolHapus.textContent = "Hapus";
+        tombolHapus.className = "hapus";
+        tombolHapus.type = "button";
+
+        tombolHapus.onclick = () => {
+            if (confirm("Yakin ingin menghapus " + item.nama + "?")) {
+                barang.splice(index, 1);
+                simpanData();
+
+                if (kodeSedangDiedit === item.kode) {
+                    batalkanEdit();
+                }
+
+                tampilkanPilihanKategori();
+                tampilkanBarang();
+
+                document.getElementById("pesan").textContent =
+                    "Data barang berhasil dihapus.";
+            }
+        };
+
+        aksi.append(
+            tombolEdit,
+            document.createTextNode(" "),
+            tombolKurang,
+            document.createTextNode(" "),
+            tombolHapus
+        );
+
+        baris.appendChild(aksi);
+        tabel.appendChild(baris);
+    });
+
+    document.getElementById("totalBarang").textContent =
+        "Total barang: " + barang.length + " jenis";
+}
+
+function batalkanEdit() {
+    kodeSedangDiedit = null;
+
+    document.getElementById("formBarang").reset();
+    document.getElementById("kode").readOnly = false;
+
+    document.querySelector(
+        "#formBarang button[type='submit']"
+    ).textContent = "+ Simpan Barang";
+}
+
+document.getElementById("formBarang").addEventListener(
+    "submit",
+    function(event) {
+        event.preventDefault();
+
+        const kode = document.getElementById("kode").value.trim();
+        const nama = document.getElementById("nama").value.trim();
+        const kategori = document.getElementById("kategori").value;
+        const jumlah = Number(
+            document.getElementById("jumlah").value
+        );
+        const kondisi = document.getElementById("kondisi").value;
+        const pesan = document.getElementById("pesan");
+
+        if (
+            !kode ||
+            !nama ||
+            !kategori ||
+            !kondisi ||
+            !Number.isInteger(jumlah) ||
+            jumlah < 1
+        ) {
+            pesan.textContent =
+                "Periksa semua isian. Jumlah harus berupa bilangan bulat minimal 1.";
+            return;
+        }
+
+        if (kodeSedangDiedit !== null) {
+            const index = barang.findIndex(
+                item => item.kode === kodeSedangDiedit
+            );
+
+            if (index === -1) {
+                pesan.textContent =
+                    "Barang yang akan diedit tidak ditemukan.";
+                return;
+            }
+
+            barang[index] = {
+                kode,
+                nama,
+                kategori,
+                jumlah,
+                kondisi
+            };
+
+            simpanData();
+            batalkanEdit();
+            tampilkanPilihanKategori();
+            tampilkanBarang();
+
+            pesan.textContent =
+                "Perubahan barang berhasil disimpan!";
+            return;
+        }
+
+        const kodeDuplikat = barang.some(
+            item => String(item.kode).toLowerCase() === kode.toLowerCase()
+        );
+
+        if (kodeDuplikat) {
+            pesan.textContent =
+                "Kode barang sudah digunakan. Gunakan kode lain.";
+            return;
+        }
+
+        barang.push({
+            kode,
+            nama,
+            kategori,
+            jumlah,
+            kondisi
+        });
+
+        simpanData();
+        this.reset();
+
+        tampilkanPilihanKategori();
+        tampilkanBarang();
+
+        pesan.textContent = "Barang berhasil ditambahkan!";
+    }
+);
+
+document.getElementById("formBarang").addEventListener(
+    "reset",
+    function() {
+        kodeSedangDiedit = null;
+        document.getElementById("kode").readOnly = false;
+
+        document.querySelector(
+            "#formBarang button[type='submit']"
+        ).textContent = "+ Simpan Barang";
+    }
+);
+
+window.addEventListener("storage", function(event) {
+    if (event.key === KUNCI_BARANG || event.key === null) {
+        const dataTerbaru = bacaArray(KUNCI_BARANG);
+
+        if (dataTerbaru !== null) {
+            barang = dataTerbaru;
+            tampilkanBarang();
+            tampilkanPilihanKategori();
+        }
+    }
+
+    if (event.key === KUNCI_KATEGORI || event.key === null) {
+        tampilkanPilihanKategori();
+    }
+});
+
+tampilkanPilihanKategori();
+tampilkanBarang();
+</script>
+
+</body>
+</html>

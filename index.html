@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventari</title>
+
+<link rel="stylesheet" href="/css/styleassets.css">
+<link rel="stylesheet" href="assets/css/theme.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #66433b;
+        }
+
+        .navbar {
+            background: #66433b;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            min-height: 75vh;
+            padding: 70px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 48px);
+            margin-bottom: 20px;
+            color: #66433b;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #8d5d52f8;
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 260px;
+            text-align: center;
+        }
+
+        .hero-image span {
+            font-size: clamp(100px, 18vw, 180px);
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            background: #66433b;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #311d18;
+        }
+
+        .features {
+            padding: 45px 8%;
+            text-align: center;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000d;
+        }
+
+        .feature span {
+            font-size: 38px;
+        }
+
+        footer {
+            background: #66433b;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 18px 5%;
+            }
+
+            .navbar a {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+
+            .hero {
+                padding: 45px 6%;
+            }
+        } 
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="brand">📦 Inventari</div>
+        <nav>
+            <a href="#beranda">Beranda</a>
+            <a href="#fitur">Fitur</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="beranda">
+            <div class="hero-text">
+                <h1>Sistem Informasi Peminjaman dan Pengelolaan Barang Inventaris</h1>
+
+                <p>
+                    Kelola data barang, kategori, pengguna, dan peminjaman
+                    dengan lebih mudah, rapi, dan terstruktur melalui
+                    Sistem Informasi Inventari.
+                </p>
+
+                <a class="button" href="pages/login.html">
+                    Masuk ke Sistem →
+                </a>
+            </div>
+
+           
+        </section>
+
+        <section class="features" id="fitur">
+            <h2>Fitur Utama</h2>
+           
+            <div class="feature-list">
+                <div class="feature">
+                    <span>📦</span>
+                    <h3>Data Barang</h3>
+                    <p>Mencatat dan mengelola barang.</p>
+                </div>
+
+                <div class="feature">
+                    <span>🏷️</span>
+                    <h3>Kategori Barang</h3>
+                    <p>Mengelompokkan barang berdasarkan kategori.</p>
+                </div>
+
+                <div class="feature">
+                    <span>📋</span>
+                    <h3>Peminjaman</h3>
+                    <p>Mencatat data peminjaman barang.</p>
+                </div>
+
+                <div class="feature">
+                    <span>👥</span>
+                    <h3>Pengguna</h3>
+                    <p>Mengelola data pengguna sistem.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        
+    </footer>
+</body>
+</html>

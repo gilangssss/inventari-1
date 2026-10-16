@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Inventari</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <h2>⬡ Inventari</h2>
+        <nav>
+            <a href="dashboard.html" class="active">⌂ Dashboard</a>
+            <a href="kategori.html">▤ Kategori Barang</a>
+            <a href="barang.html">▣ Data Barang</a>
+            <a href="peminjaman.html">◷ Peminjaman</a>
+            <a href="pengguna.html">♙ Pengguna</a>
+            <a href="login.html" class="logout">⇥ Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button type="button" id="menuToggle"
+                aria-label="Tampilkan atau sembunyikan menu">☰</button>
+            <span>Admin</span>
+        </header>
+
+        <section class="content">
+            
+            <div class="stats">
+                <div class="stat-card blue">
+                    <h3>Total Barang</h3>
+                    <p id="totalBarang">0</p>
+                </div>
+
+                <div class="stat-card green">
+                    <h3>Barang Tersedia</h3>
+                    <p id="barangTersedia">0</p>
+                </div>
+
+                <div class="stat-card orange">
+                    <h3>Barang Pinjaman</h3>
+                    <p id="barangPinjaman">0</p>
+                </div>
+
+                <div class="stat-card purple">
+                    <h3>Pengembalian Barang</h3>
+                    <p id="pengembalianBarang">0</p>
+                </div>
+            </div>
+
+            <section class="panel">
+                <h2>Aktivitas</h2>
+                
+                <a class="button" href="barang.html">Lihat Data Barang</a>
+                <a class="button" href="peminjaman.html">Lihat Peminjaman</a>
+            </section>
+        </section>
+    </main>
+</div>
+
+<script src="../assets/js/script.js"></script>
+<script>
+function bacaData(kunci) {
+    try {
+        const data = JSON.parse(localStorage.getItem(kunci) || "[]");
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        console.error("Gagal membaca " + kunci, error);
+        return [];
+    }
+}
+
+function hitungDashboard() {
+    const barang = bacaData("inventarisku_barang");
+    const peminjaman = bacaData("inventarisku_peminjaman");
+
+    const totalBarang = barang.reduce((total, item) => {
+        return total + Math.max(0, Number(item.jumlah) || 0);
+    }, 0);
+
+    let barangPinjaman = 0;
+    let pengembalianBarang = 0;
+
+    peminjaman.forEach(item => {
+        const jumlah = Math.max(0, Number(item.jumlah) || 0);
+        const status = String(
+            item.status || item.statusPengembalian || "Dipinjam"
+        ).toLowerCase();
+
+        if (status === "dikembalikan" || status === "kembali") {
+            pengembalianBarang += jumlah;
+        } else {
+            barangPinjaman += jumlah; 
+        }
+    });
+
+    const barangTersedia = Math.max(0, totalBarang - barangPinjaman);
+
+    document.getElementById("totalBarang").textContent = totalBarang;
+    document.getElementById("barangTersedia").textContent = barangTersedia;
+    document.getElementById("barangPinjaman").textContent = barangPinjaman;
+    document.getElementById("pengembalianBarang").textContent =
+        pengembalianBarang;
+}
+
+hitungDashboard();
+
+window.addEventListener("storage", function(event) {
+    if (
+        event.key === "inventarisku_barang" ||
+        event.key === "inventarisku_peminjaman" ||
+        event.key === null
+    ) {
+        hitungDashboard();
+    }
+});
+
+window.addEventListener("focus", hitungDashboard);
+</script>
+</body>
+</html>

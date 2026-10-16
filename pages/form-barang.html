@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Barang - Inventari</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="layout">
+
+        <aside class="sidebar">
+            <h2>⬡ Inventari</h2>
+            <nav>
+                <a href="dashboard.html">⌂ Dashboard</a>
+                <a href="kategori.html">▤ Kategori Barang</a>
+                <a href="barang.html" class="active">▣ Data Barang</a>
+                <a href="peminjaman.html">◷ Peminjaman</a>
+                <a href="pengguna.html">♙ Pengguna</a>
+                <a href="login.html" class="logout">⇥ Logout</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button type="button" id="menuToggle">☰</button>
+                <span>Admin ▾</span>
+            </header>
+
+            <section class="content">
+                <div class="welcome">
+                    <h1>Data Barang</h1>
+                    <p>Kelola seluruh barang yang tersedia.</p>
+                
+                </div>
+
+                <section class="panel">
+                    <div class="page-actions">
+                        <h2>Daftar Barang</h2>
+                        <a href="form-barang.html" class="button">
+                            + Tambah Barang
+                        </a>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Kategori</th>
+                                    <th>Jumlah</th>
+                                    <th>Kondisi</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>BRG001</td>
+                                    <td>Laptop Lenovo</td>
+                                    <td>Elektronik</td>
+                                    <td>10</td>
+                                    <td>Baik</td>
+                                    <td><span class="status tersedia">Tersedia</span></td>
+                                    <td>
+                                        <a href="form-barang.html" class="button">Edit</a>
+                                        <button type="button"
+                                            class="button btn-hapus"
+                                            onclick="hapusContoh(this)">Hapus</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>2</td>
+                                    <td>BRG002</td>
+                                    <td>Proyektor Epson</td>
+                                    <td>Elektronik</td>
+                                    <td>5</td>
+                                    <td>Baik</td>
+                                    <td><span class="status tersedia">Tersedia</span></td>
+                                    <td>
+                                        <a href="form-barang.html" class="button">Edit</a>
+                                        <button type="button"
+                                            class="button btn-hapus"
+                                            onclick="hapusContoh(this)">Hapus</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>3</td>
+                                    <td>BRG003</td>
+                                    <td>Kursi Kantor</td>
+                                    <td>Furniture</td>
+                                    <td>20</td>
+                                    <td>Baik</td>
+                                    <td><span class="status dipinjam">Sebagian Dipinjam</span></td>
+                                    <td>
+                                        <a href="form-barang.html" class="button">Edit</a>
+                                        <button type="button"
+                                            class="button btn-hapus"
+                                            onclick="hapusContoh(this)">Hapus</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>4</td>
+                                    <td>BRG004</td>
+                                    <td>Keyboard</td>
+                                    <td>Aksesoris</td>
+                                    <td>15</td>
+                                    <td>Baik</td>
+                                    <td><span class="status tersedia">Tersedia</span></td>
+                                    <td>
+                                        <a href="form-barang.html" class="button">Edit</a>
+                                        <button type="button"
+                                            class="button btn-hapus"
+                                            onclick="hapusContoh(this)">Hapus</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>5</td>
+                                    <td>BRG005</td>
+                                    <td>Mouse Wireless</td>
+                                    <td>Aksesoris</td>
+                                    <td>12</td>
+                                    <td>Baik</td>
+                                    <td><span class="status tersedia">Tersedia</span></td>
+                                    <td>
+                                        <a href="form-barang.html" class="button">Edit</a>
+                                        <button type="button"
+                                            class="button btn-hapus"
+                                            onclick="hapusContoh(this)">Hapus</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="note">
+                        Catatan: data di atas merupakan data contoh untuk tampilan
+                        awal dan belum tersimpan ke database.
+                    </p>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        function hapusContoh(tombol) {
+            if (confirm("Yakin ingin menghapus baris contoh ini?")) {
+                tombol.closest("tr").remove();
+            }
+        }
+    </script>
+</body>
+</html>
