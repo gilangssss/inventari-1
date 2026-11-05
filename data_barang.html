@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Barang - Peminjaman Inventaris</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f1f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            min-height: 520px;
+            margin: auto;
+            background: #fff9ec;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px #00000015;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            background: #f2e5c9;
+            padding: 12px 25px;
+            border-radius: 15px;
+            flex: 1;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .admin {
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        /* Tabel */
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 0 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: auto;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 2px solid black;
+            padding: 13px 15px;
+            text-align: center;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 15px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .menu {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .table-wrapper {
+                padding: 0;
+            }
+
+            table {
+                min-width: 650px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="menu">
+            <a href="index.html">📦 Dashboard</a>
+            <a href="data_barang.html">📂 Data Barang</a>
+            <a href="form_barang.html">🛒 Form Tambah/Edit Barang</a>
+        </div>
+
+        <div class="admin">🌿 ADMIN</div>
+    </nav>
+
+    <!-- Tabel Data Barang -->
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Nama barang</th>
+                    <th>Jumlah barang</th>
+                    <th>Barang tersedia</th>
+                    <th>Barang di pinjam</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Y001</td>
+                    <td>Laptop</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y002</td>
+                    <td>Handphone</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y003</td>
+                    <td>Kamera</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y004</td>
+                    <td>Playstation</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y005</td>
+                    <td>Printer</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y006</td>
+                    <td>Sound sistem</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y007</td>
+                    <td>Walkie talkie</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>0</td>
+                </tr>
+
+                <tr>
+                    <td>Y008</td>
+                    <td>Projector</td>
+                    <td>7</td>
+                    <td>7</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

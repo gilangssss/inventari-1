@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Tambah/Edit Barang</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f1f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            min-height: 520px;
+            margin: auto;
+            background: #fff9ec;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px #00000015;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            background: #f2e5c9;
+            padding: 12px 25px;
+            border-radius: 15px;
+            flex: 1;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .admin {
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        /* Form */
+        .form-box {
+            width: 300px;
+            margin: auto;
+            background: #9bbfa5;
+            padding: 20px 30px;
+            border-radius: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        input {
+            width: 100%;
+            height: 22px;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 12px;
+            background: white;
+            outline: none;
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 2px #006633;
+        }
+
+        .btn-simpan {
+            display: block;
+            width: 225px;
+            height: 38px;
+            margin: 28px auto 0;
+            background: #006633;
+            color: white;
+            border: 1px solid #004d26;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-simpan:hover {
+            background: #004d26;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                margin-bottom: 40px;
+            }
+
+            .menu {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .form-box {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn-simpan {
+                width: 100%;
+                max-width: 225px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="menu">
+            <a href="index.html">📦 Dashboard</a>
+            <a href="data_barang.html">📂 Data Barang</a>
+            <a href="form_barang.html">🛒 Form Tambah/Edit Barang</a>
+        </div>
+
+        <div class="admin">🌿 ADMIN</div>
+    </nav>
+
+    <!-- Form Tambah Barang -->
+    <form id="formBarang">
+
+        <div class="form-box">
+
+            <div class="form-group">
+                <label for="kode">Kode barang</label>
+                <input type="text" id="kode" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nama">Nama barang</label>
+                <input type="text" id="nama" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jumlah">Jumlah barang</label>
+                <input type="number" id="jumlah" min="1" required>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn-simpan">
+            SIMPAN &gt;
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+    document.getElementById("formBarang").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const kode = document.getElementById("kode").value;
+        const nama = document.getElementById("nama").value;
+        const jumlah = document.getElementById("jumlah").value;
+
+        alert(
+            "Data barang berhasil disimpan!\n\n" +
+            "Kode: " + kode +
+            "\nNama barang: " + nama +
+            "\nJumlah barang: " + jumlah
+        );
+
+        this.reset();
+    });
+</script>
+
+</body>
+</html>
