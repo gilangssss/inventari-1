@@ -69,20 +69,14 @@ Data yang akan digunakan dalam sistem meliputi:
 ## Struktur Folder Awal
 
 ```text
-sistem-informasi-inventaris/
-├── assets/
-│   ├── css/
-│   ├── js/
-│   └── img/
-├── pages/
-│   ├── login.html
-│   ├── dashboard.html
-│   ├── barang.html
-│   └── form-barang.html
+│   ── index.html
+│   ── login.html
+│   ── dashboard.html
+│   ── data_barang.html
+│   ── form_barang.html
 ├── wireframe/
 │   └── wireframe.png
 ├── README.md
-└── .gitignore
 ```
 
 ## Halaman Awal
