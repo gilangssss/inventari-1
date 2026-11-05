@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peminjaman - Inventari</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <h2>⬡ Inventari</h2>
+        <nav>
+            <a href="dashboard.html">⌂ Dashboard</a>
+            <a href="kategori.html">▤ Kategori Barang</a>
+            <a href="barang.html">▣ Data Barang</a>
+            <a href="peminjaman.html" class="active">◷ Peminjaman</a>
+            <a href="pengguna.html">♙ Pengguna</a>
+            <a href="login.html" class="logout">⇥ Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button type="button" id="menuToggle">☰</button>
+            <span>Admin</span>
+        </header>
+
+        <section class="content">
+            <div class="welcome">
+                <h1>Data Peminjaman</h1>
+                <p id="tanggalWaktu"></p>
+            </div>
+
+            <section class="panel">
+                <h2>Form Peminjaman</h2>
+                <form id="formPeminjaman">
+                    <div class="form-group">
+                        <label for="namaPeminjam">Nama Peminjam</label>
+                        <input id="namaPeminjam" required
+                               placeholder="Masukkan nama peminjam">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="namaBarang">Nama Barang</label>
+                        <input id="namaBarang" required
+                               placeholder="Masukkan nama barang">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jumlah">Jumlah Dipinjam</label>
+                        <input id="jumlah" type="number" min="1" required
+                               placeholder="Masukkan jumlah">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal Peminjaman</label>
+                        <input id="tanggal" type="date" required>
+                    </div>
+
+                    <button class="button" type="submit">+ Tambah Peminjaman</button>
+                    <button class="button" type="reset">Kosongkan</button>
+                    <p id="pesan"></p>
+                </form>
+            </section>
+
+            <section class="panel">
+                <h2>Daftar Peminjaman</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Peminjam</th>
+                                <th>Nama Barang</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftarPeminjaman"></tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </main>
+</div>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+const kunci = "inventarisku_peminjaman";
+const kunciBarang = "inventarisku_barang";
+
+function bacaData(kunciData) {
+    try {
+        const data = JSON.parse(localStorage.getItem(kunciData) || "[]");
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+let dataPeminjaman = bacaData(kunci);
+let dataBarang = bacaData(kunciBarang);
+
+const form = document.getElementById("formPeminjaman");
+const daftar = document.getElementById("daftarPeminjaman");
+const pesan = document.getElementById("pesan");
+
+function simpanPeminjaman() {
+    localStorage.setItem(kunci, JSON.stringify(dataPeminjaman));
+}
+
+function simpanBarang() {
+    localStorage.setItem(kunciBarang, JSON.stringify(dataBarang));
+}
+
+
+function stokTersedia(namaBarang) {
+    const barang = dataBarang.find(item =>
+        item.nama.toLowerCase() === namaBarang.toLowerCase()
+    );
+
+    if (!barang) return 0;
+
+    const sedangDipinjam = dataPeminjaman
+        .filter(item =>
+            item.barang.toLowerCase() === barang.nama.toLowerCase() &&
+            !String(item.status || item.statusPengembalian || "")
+                .toLowerCase().includes("kembali")
+        )
+        .reduce((total, item) => total + Number(item.jumlah || 0), 0);
+
+    return Math.max(0, Number(barang.jumlah || 0) - sedangDipinjam);
+}
+
+function tampilkan() {
+    daftar.replaceChildren();
+
+    dataPeminjaman.forEach((item, index) => {
+        const baris = document.createElement("tr");
+        const status = String(
+            item.status || item.statusPengembalian || "Dipinjam"
+        );
+
+        [
+            index + 1,
+            item.nama,
+            item.barang,
+            item.jumlah,
+            item.tanggal,
+            status
+        ].forEach(nilai => {
+            const sel = document.createElement("td");
+            sel.textContent = nilai;
+            baris.appendChild(sel);
+        });
+
+        const kolomAksi = document.createElement("td");
+
+        if (!status.toLowerCase().includes("kembali")) {
+            const tombolKembali = document.createElement("button");
+            tombolKembali.type = "button";
+            tombolKembali.textContent = "Kembalikan";
+            tombolKembali.className = "button";
+
+            tombolKembali.onclick = () => {
+                if (!confirm("Konfirmasi barang sudah dikembalikan?")) {
+                    return;
+                }
+
+                dataPeminjaman[index].status = "Dikembalikan";
+                simpanPeminjaman();
+                tampilkan();
+
+                pesan.textContent =
+                    "Pengembalian berhasil dicatat. Stok tersedia bertambah.";
+            };
+
+            kolomAksi.appendChild(tombolKembali);
+        } else {
+            const tombolHapus = document.createElement("button");
+            tombolHapus.type = "button";
+            tombolHapus.textContent = "Hapus Riwayat";
+            tombolHapus.className = "button";
+
+            tombolHapus.onclick = () => {
+                if (!confirm("Hapus riwayat pengembalian ini?")) return;
+
+                dataPeminjaman.splice(index, 1);
+                simpanPeminjaman();
+                tampilkan();
+
+                pesan.textContent = "Riwayat berhasil dihapus.";
+            };
+
+            kolomAksi.appendChild(tombolHapus);
+        }
+
+        baris.appendChild(kolomAksi);
+        daftar.appendChild(baris);
+    });
+}
+
+form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    dataBarang = bacaData(kunciBarang);
+    dataPeminjaman = bacaData(kunci);
+
+    const item = {
+        nama: document.getElementById("namaPeminjam").value.trim(),
+        barang: document.getElementById("namaBarang").value.trim(),
+        jumlah: Number(document.getElementById("jumlah").value),
+        tanggal: document.getElementById("tanggal").value,
+        status: "Dipinjam"
+    };
+
+    if (!item.nama || !item.barang || !item.tanggal ||
+        !Number.isInteger(item.jumlah) || item.jumlah < 1) {
+        pesan.textContent = "Periksa kembali semua isian.";
+        return;
+    }
+
+    const barangDitemukan = dataBarang.find(barang =>
+        barang.nama.toLowerCase() === item.barang.toLowerCase()
+    );
+
+    if (!barangDitemukan) {
+        pesan.textContent =
+            "Nama barang tidak ditemukan. Periksa nama di halaman Data Barang.";
+        return;
+    }
+
+    const tersedia = stokTersedia(item.barang);
+
+    if (item.jumlah > tersedia) {
+        pesan.textContent =
+            "Stok tidak mencukupi. Stok tersedia: " + tersedia;
+        return;
+    }
+
+    dataPeminjaman.push(item);
+    simpanPeminjaman();
+    tampilkan();
+    form.reset();
+
+    pesan.textContent =
+        "Peminjaman berhasil. Stok tersedia sekarang: " +
+        (tersedia - item.jumlah);
+});
+
+window.addEventListener("storage", event => {
+    if (event.key === kunci || event.key === kunciBarang ||
+        event.key === null) {
+        dataPeminjaman = bacaData(kunci);
+        dataBarang = bacaData(kunciBarang);
+        tampilkan();
+    }
+});
+
+tampilkan();
+</script>
+</body>
+</html>

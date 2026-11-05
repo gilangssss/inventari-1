@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Barang - Inventari</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <h2>⬡ Inventari</h2>
+        <nav>
+            <a href="dashboard.html">⌂ Dashboard</a>
+            <a href="kategori.html">▤ Kategori Barang</a>
+            <a href="barang.html" class="active">▣ Data Barang</a>
+            <a href="peminjaman.html">◷ Peminjaman</a>
+            <a href="pengguna.html">♙ Pengguna</a>
+            <a href="login.html" class="logout">⇥ Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <button type="button" id="menuToggle"
+                aria-label="Tampilkan atau sembunyikan menu">☰</button>
+            <span>Admin</span>
+        </header>
+
+        <section class="content">
+            <div class="welcome">
+                <h1>Data Barang</h1>
+                <p id="tanggalWaktu"></p>
+            </div>
+
+            <section class="panel">
+                <div class="page-actions">
+                    <h2>Daftar Barang</h2>
+                    <a href="form-barang.html" class="button">+ Tambah Barang</a>
+                </div>
+
+                <p id="totalBarang" class="note"></p>
+                <p id="pesan" class="pesan" role="status"></p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Kode</th>
+                                <th>Nama Barang</th>
+                                <th>Kategori</th>
+                                <th>Jumlah</th>
+                                <th>Tersedia</th>
+                                <th>Dipinjam</th>
+                                <th>Kondisi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="daftarBarang"></tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </main>
+</div>
+
+<script src="../assets/js/script.js"></script>
+<script>
+let barang = ambilArray(KUNCI_BARANG) || [];
+
+function hitungDipinjam(namaBarang) {
+    const peminjaman = ambilArray(KUNCI_PEMINJAMAN) || [];
+
+    return peminjaman
+        .filter(item =>
+            String(item.barang).toLowerCase() === namaBarang.toLowerCase() &&
+            !String(item.status || "Dipinjam").toLowerCase().includes("kembali")
+        )
+        .reduce((total, item) => total + Number(item.jumlah || 0), 0);
+}
+
+function buatSel(teks) {
+    const td = document.createElement("td");
+    td.textContent = teks ?? "";
+    return td;
+}
+
+function tampilkanBarang() {
+    const tabel = document.getElementById("daftarBarang");
+    tabel.replaceChildren();
+
+    barang.forEach((item, index) => {
+        const dipinjam = hitungDipinjam(item.nama);
+        const tersedia = Math.max(0, Number(item.jumlah) - dipinjam);
+        const baris = document.createElement("tr");
+
+        [
+            index + 1,
+            item.kode,
+            item.nama,
+            item.kategori,
+            item.jumlah,
+            tersedia,
+            dipinjam,
+            item.kondisi
+        ].forEach(nilai => baris.appendChild(buatSel(nilai)));
+
+        const aksi = document.createElement("td");
+        aksi.className = "aksi";
+
+        const tombolEdit = document.createElement("a");
+        tombolEdit.textContent = "Edit";
+        tombolEdit.className = "button";
+        tombolEdit.href = "form-barang.html?kode=" + encodeURIComponent(item.kode);
+
+        const tombolHapus = document.createElement("button");
+        tombolHapus.type = "button";
+        tombolHapus.textContent = "Hapus";
+        tombolHapus.className = "button hapus";
+        tombolHapus.onclick = () => {
+            if (!confirm("Yakin ingin menghapus " + item.nama + "?")) {
+                return;
+            }
+
+            barang.splice(index, 1);
+            simpanArray(KUNCI_BARANG, barang);
+            tampilkanBarang();
+            document.getElementById("pesan").textContent =
+                "Data barang berhasil dihapus.";
+        };
+
+        aksi.append(tombolEdit, document.createTextNode(" "), tombolHapus);
+        baris.appendChild(aksi);
+        tabel.appendChild(baris);
+    });
+
+    document.getElementById("totalBarang").textContent =
+        "Total barang: " + barang.length + " jenis";
+}
+
+window.addEventListener("storage", event => {
+    if (event.key === KUNCI_BARANG || event.key === KUNCI_PEMINJAMAN || event.key === null) {
+        barang = ambilArray(KUNCI_BARANG) || [];
+        tampilkanBarang();
+    }
+});
+
+tampilkanBarang();
+</script>
+</body>
+</html>
