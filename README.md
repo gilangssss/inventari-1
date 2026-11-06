@@ -70,7 +70,6 @@ Data yang akan digunakan dalam sistem meliputi:
 
 ```text
 │   ── index.html
-│   ── login.html
 │   ── dashboard.html
 │   ── data_barang.html
 │   ── form_barang.html
@@ -88,18 +87,4 @@ Rancangan awal aplikasi terdiri dari:
 3. Halaman Data Barang
 4. Form Tambah/Edit Barang
 
-## Status Pengembangan
-
-**Milestone 1 — Perencanaan dan Perancangan**
-
-Tahap yang sedang dikerjakan:
-
-* Pemilihan proyek
-* Penyusunan latar belakang
-* Penentuan target pengguna
-* Penyusunan fitur utama
-* Pembuatan wireframe
-* Pembuatan repository GitHub
-* Penyusunan struktur folder awal
-* Pembuatan README
 
