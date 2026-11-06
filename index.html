@@ -1,18 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Peminjaman Inventaris</title>
-
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: Arial, sans-serif;
             background: #f1f1f4;
@@ -22,8 +19,6 @@
             align-items: center;
             padding: 20px;
         }
-
-    
         .container {
             width: 100%;
             max-width: 1200px;
@@ -37,41 +32,33 @@
             justify-content: center;
             align-items: center;
         }
-
-        /* Formlogin */
         .login-box {
             width: 100%;
             max-width: 500px;
         }
-
         .logo {
             font-size: 35px;
             color: #006633;
             margin-bottom: 25px;
         }
-
         .welcome {
             color: #006633;
             font-size: 15px;
             margin-bottom: 5px;
         }
-
         h1 {
             font-size: 35px;
             font-weight: 900;
             margin-bottom: 8px;
         }
-
         .form-group {
             margin-bottom: 15px;
         }
-
         label {
             display: block;
             font-size: 14px;
             margin-bottom: 4px;
         }
-
         input {
             width: 100%;
             max-width: 300px;
@@ -103,7 +90,6 @@
             color: #006633;
             text-decoration: underline;
         }
-
         button {
             width: 100%;
             max-width: 300px;
@@ -115,11 +101,9 @@
             font-weight: bold;
             cursor: pointer;
         }
-
         button:hover {
             background: #004d26;
         }
-
         @media (max-width: 600px) {
             .container {
                 padding: 30px 20px;
@@ -141,7 +125,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <div class="container">
@@ -169,17 +152,13 @@
                 <a href="#" class="forgot" onclick="lupaPassword()">
                     lupa kata sandi?
                 </a>
-
+                
                 <button type="submit">
                     MASUK KE DASHBOARD &gt;
                 </button>
-
             </form>
-
         </div>
-
     </div>
-
     <script>
         function login(event) {
             event.preventDefault();
@@ -196,11 +175,9 @@
                 alert("Email atau kata sandi salah!");
             }
         }
-
         function lupaPassword() {
             alert("Silakan hubungi administrator untuk reset kata sandi.");
         }
     </script>
-
 </body>
 </html>
