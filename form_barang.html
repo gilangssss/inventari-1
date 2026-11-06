@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -29,7 +28,6 @@
             box-shadow: 0 4px 15px #00000015;
         }
 
-        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -60,7 +58,6 @@
             padding: 10px;
         }
 
-        /* Form */
         .form-box {
             width: 300px;
             margin: auto;
@@ -139,12 +136,9 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="menu">
             <a href="index.html">📦 Dashboard</a>
@@ -155,7 +149,6 @@
         <div class="admin">🌿 ADMIN</div>
     </nav>
 
-    <!-- Form Tambah Barang -->
     <form id="formBarang">
 
         <div class="form-box">
@@ -184,7 +177,6 @@
     </form>
 
 </div>
-    <!-- Java  untuk form -->  
 <script>
     document.getElementById("formBarang").addEventListener("submit", function(event) {
         event.preventDefault();
@@ -203,6 +195,5 @@
         this.reset();
     });
 </script>
-
 </body>
 </html>
